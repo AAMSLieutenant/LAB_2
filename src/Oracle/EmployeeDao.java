@@ -23,23 +23,19 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @author Rostislav Stakhov
+ * @author Rostislav Stakhov <rst1991@ukr.net>
  */
+
 public class EmployeeDao implements EmployeeDaoble {
     
-    /** Объект для управления персистентным состоянием объекта Office */
-
-    
-    
     private final Connection connection;//Объект соединения с БД
-    private String role;//Роль пользователя
+    private String role;//Текущая роль пользователя
     
-    public EmployeeDao(Connection connection) 
-    {
+    public EmployeeDao(Connection connection){
         this.connection = connection;
     }
     
-    /** Создает новую запись и соответствующий ей объект */
+    
     @Override
     public void create(Employee employee) throws Exception{
         
@@ -67,13 +63,13 @@ public class EmployeeDao implements EmployeeDaoble {
             ps.setString(1, employee.getEmpName());
             ps.setInt(2, 15);
             ps.setObject(3, null);
+            
             if(employee.getParObjId()!=null){
                 ps.setLong(3, employee.getParObjId());
             }
-            
+          
             ps.executeUpdate();
             connection.commit();
-
 
             statement="INSERT INTO PARAMETERS (attr_id, object_id, number_info) "
                     +"VALUES (?, (SELECT object_id FROM objects WHERE object_name=?), ?)";
@@ -83,7 +79,6 @@ public class EmployeeDao implements EmployeeDaoble {
             ps.setInt(3, employee.getEmpNum());
             ps.executeUpdate();
             connection.commit();
-
 
             statement="INSERT INTO PARAMETERS (attr_id, object_id, text_info) "
                     +"VALUES (?, (SELECT object_id FROM objects WHERE object_name=?), ?)";
@@ -103,7 +98,6 @@ public class EmployeeDao implements EmployeeDaoble {
             ps.executeUpdate();
             connection.commit();
 
-
             java.sql.Date d=new java.sql.Date(employee.getEmpHireDate().getTime());
             System.out.println(d);
             statement="INSERT INTO PARAMETERS (attr_id, object_id, date_info) "
@@ -120,19 +114,21 @@ public class EmployeeDao implements EmployeeDaoble {
             ps=connection.prepareStatement(statement);
             ps.setInt(1, 25);
             ps.setString(2, employee.getEmpName());
-            ps.setDouble(3, employee.getSalary());
+            ps.setDouble(3, employee.getEmpSalary());
             ps.executeUpdate();
             connection.commit();
 
-    
-
-              try{ps.close();}catch(SQLException e){}
+              try{
+                  ps.close();
+              }
+              catch(SQLException e){
+                  e.printStackTrace();
+              }
           
         }
         
     }
 
-    /** Возвращает объект соответствующий записи с первичным ключом key или null */
     @Override
     public Employee read(long key) throws Exception{
         
@@ -157,10 +153,8 @@ public class EmployeeDao implements EmployeeDaoble {
         ResultSet rs=ps.executeQuery();
         Employee e=new Employee();
         while(rs.next()){
-            
-           
-            
-            e.setId(rs.getLong("object_id"));
+                                   
+            e.setObjectId(rs.getLong("object_id"));
            
             e.setObjName(rs.getString("object_name"));
             
@@ -174,35 +168,36 @@ public class EmployeeDao implements EmployeeDaoble {
             
             if(rs.getInt("attr_id")==24) e.setEmpHireDate(rs.getDate("date_info"));
             
-            if(rs.getInt("attr_id")==25) e.setSalary(rs.getDouble("number_info"));
+            if(rs.getInt("attr_id")==25) e.setEmpSalary(rs.getDouble("number_info"));
             
             
         }
-        System.out.println("id:"+e.getId());
+        System.out.println("id:"+e.getObjectId());
         System.out.println("number:"+e.getEmpNum());
         System.out.println("name:"+e.getEmpName());
         System.out.println("job:"+e.getEmpJob());
         System.out.println("hiredate:"+e.getEmpHireDate());
-        System.out.println("salary:"+e.getSalary());
+        System.out.println("salary:"+e.getEmpSalary());
 
 
         System.out.println("------------------------------");
         
-        try{ps.close();}catch(SQLException ex){}
-//        
+        try{
+            ps.close();
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        
         return e;
-        
-        
-        
         
     }
 
-    /** Сохраняет состояние объекта Employee в базе данных */
+    
     @Override
     public void update(long key, Employee employee) throws Exception{
         
         if((consider(getRole(), 'w', 15))==1){
-        
         
             System.out.println("Employee update()");
 
@@ -224,7 +219,6 @@ public class EmployeeDao implements EmployeeDaoble {
                 System.out.println(employee.getObjName());
                 statement="UPDATE objects SET object_name=?, parent_object_id=? WHERE object_id=?";
 
-
                 ps=connection.prepareStatement(statement);
                 ps.setString(1, employee.getObjName());
                 ps.setObject(2, null);
@@ -235,8 +229,6 @@ public class EmployeeDao implements EmployeeDaoble {
                 ps.executeUpdate();
                 connection.commit();
 
-
-
                 statement="UPDATE parameters"
                         + " SET number_info=?"
                         + " WHERE object_id=?"
@@ -246,7 +238,7 @@ public class EmployeeDao implements EmployeeDaoble {
                 ps.setLong(2, key);
                 ps.executeUpdate();
                 connection.commit();
-    //            
+           
                 statement="UPDATE parameters"
                         + " SET text_info=?"
                         + " WHERE object_id=?"
@@ -256,7 +248,7 @@ public class EmployeeDao implements EmployeeDaoble {
                 ps.setLong(2, key);
                 ps.executeUpdate();
                 connection.commit();
-    //            
+             
                 statement="UPDATE parameters"
                         + " SET text_info=?"
                         + " WHERE object_id=?"
@@ -266,7 +258,7 @@ public class EmployeeDao implements EmployeeDaoble {
                 ps.setLong(2, key);
                 ps.executeUpdate();
                 connection.commit();
-    //            
+            
                 statement="UPDATE parameters"
                         + " SET date_info=?"
                         + " WHERE object_id=?"
@@ -278,27 +270,30 @@ public class EmployeeDao implements EmployeeDaoble {
                 ps.setLong(2, key);
                 ps.executeUpdate();
                 connection.commit();
-    //            
+                
                 statement="UPDATE parameters"
                         + " SET number_info=?"
                         + " WHERE object_id=?"
                         + " AND attr_id=25";
                 ps=connection.prepareStatement(statement);
-                ps.setDouble(1, employee.getSalary());
+                ps.setDouble(1, employee.getEmpSalary());
                 ps.setLong(2, key);
                 ps.executeUpdate();
-                connection.commit();
-    //            
+                connection.commit();       
 
             }
 
-            try{ps.close();}catch(SQLException e){}
-        
+            try{
+                ps.close();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
         }
         
     }
 
-    /** Удаляет запись об объекте из базы данных */
+    
     @Override
     public void delete(long key) throws Exception{
         
@@ -312,6 +307,7 @@ public class EmployeeDao implements EmployeeDaoble {
             String statement="SELECT object_id FROM Objects";
             PreparedStatement ps=connection.prepareStatement(statement);
             ResultSet rs=ps.executeQuery();
+            
             while(rs.next()){
                 if(rs.getLong(1)==key){
                     flag=true;
@@ -322,7 +318,6 @@ public class EmployeeDao implements EmployeeDaoble {
 
             if(flag==true){
 
-
                 ps=connection.prepareStatement("DELETE FROM Parameters WHERE object_id=?");
                 ps.setLong(1, key);
                 ps.executeUpdate();
@@ -332,7 +327,6 @@ public class EmployeeDao implements EmployeeDaoble {
                 ps.setLong(1, key);
                 ps.executeUpdate();
 
-
                 connection.commit();
 
             }
@@ -341,14 +335,19 @@ public class EmployeeDao implements EmployeeDaoble {
             }
 
 
-            try{ps.close();}catch(SQLException e){}
+            try{
+                ps.close();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
         
         }
     
         
     }
 
-    /** Возвращает список объектов соответствующих всем записям в базе данных */
+    
     @Override
     public List<Employee> getAll() throws Exception{
         
@@ -362,22 +361,22 @@ public class EmployeeDao implements EmployeeDaoble {
         List<Employee> objects=new ArrayList<>();
         List<Long> arr=new ArrayList<>();
         
-        System.out.println("Employee getAll()");
-        
-        String statement="SELECT object_id FROM Objects where type_id=15";
-
-        PreparedStatement ps=connection.prepareStatement(statement);
-        ResultSet rs=ps.executeQuery();
-        while(rs.next()){
-
-            arr.add(rs.getLong("object_id"));   
-        }
-
-
-
-        for(int i=0;i<arr.size();i++){
-            objects.add(read(arr.get(i)));
-        }
+//        System.out.println("Employee getAll()");
+//        
+//        String statement="SELECT object_id FROM Objects where type_id=15";
+//
+//        PreparedStatement ps=connection.prepareStatement(statement);
+//        ResultSet rs=ps.executeQuery();
+//        while(rs.next()){
+//
+//            arr.add(rs.getLong("object_id"));   
+//        }
+//
+//
+//
+//        for(int i=0;i<arr.size();i++){
+//            objects.add(read(arr.get(i)));
+//        }
 
         return objects;
         
@@ -410,12 +409,14 @@ public class EmployeeDao implements EmployeeDaoble {
     @Override
     public int consider(String role, char mode, int type){
        
-        
         String check=new String();
+        String column=new String();
+        
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String column=new String();
+        
         int result=0;
+        
         
         if(role.equals("admin")){
             
@@ -440,55 +441,61 @@ public class EmployeeDao implements EmployeeDaoble {
         if(role.equals("worker")){
             
             if(mode=='r'){
-                column="WREAD";
+                column="DREAD";
             }
             if(mode=='w'){
-                column="WWRITE";
+                column="DWRITE";
             }
         }
         
-        //System.out.println(column);
+        System.out.println(column);
         
         try{
             
             check="SELECT "+column+" FROM types WHERE type_id=15";
             ps=connection.prepareStatement(check);
-            System.out.println(check);
+            //System.out.println(check);
             rs=ps.executeQuery();
+            
             while(rs.next()){
-                //System.out.println(rs.getInt(column));
+                //System.out.println("RESULT:"+rs.getInt(column));
                 result=rs.getInt(column);
             }
+            
             //System.out.println("result_1:"+result);
+            
             if(result==0){
+                
                 check="SELECT "+column+" FROM types WHERE type_id=12";
                 ps=connection.prepareStatement(check);
-                System.out.println(check);
+                //System.out.println(check);
                 rs=ps.executeQuery();
+                
                 while(rs.next()){
-                    //System.out.println(rs.getInt(column));
                     result=rs.getInt(column);
                 }
+                
                 //System.out.println("result_2:"+result);
             }
             
             if(result==0){
+                
                 check="SELECT "+column+" FROM types WHERE type_id=11";
                 ps=connection.prepareStatement(check);
-                System.out.println(check);
+                //System.out.println(check);
                 rs=ps.executeQuery();
+                
                 while(rs.next()){
-                    //system.out.println(rs.getInt(column));
                     result=rs.getInt(column);
                 }
+                
                 //System.out.println("result_3:"+result);
             }
             
         }
         catch(SQLException e){
-            
+            e.printStackTrace();
         }
-        
         
         if(result==1){
             System.out.println("APPROWED");
@@ -500,5 +507,4 @@ public class EmployeeDao implements EmployeeDaoble {
         
         return result;
     }
-
 }

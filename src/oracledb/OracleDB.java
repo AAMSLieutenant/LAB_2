@@ -38,41 +38,46 @@ public class OracleDB {
     {
         Locale.setDefault(Locale.US);
         try{
-            //System.out.println(Long.MAX_VALUE);
             
-            OracleDaoFactory df=new OracleDaoFactory();//Получение объекта связи с БД
+            //Получение объекта связи с БД
+            OracleDaoFactory df=new OracleDaoFactory();
+            //Получение объекта для работы с персистентным состоянием Office
+            OfficeDaoble of=df.getOfficeDao();
             
-            OfficeDaoble of=df.getOfficeDao();//Получение объекта для работы с персистентным состоянием Office
-            of.setRole(ADMIN_ROLE);
+            //Установка роли пользователя (администратор, менеджер, рядовой сотрудник)
+            //of.setRole(ADMIN_ROLE);
             //of.setRole(MANAGER_ROLE);
             //of.setRole(WORKER_ROLE);
             
+            //Методы работы с данными Office
             //of.create(new Office("NetBeans", 66, "NetBeansLocation"));
             //of.read(id);
-            //of.update(id, new Office("ВАРТРУКК", 100, "KisusyIEV"));
+            //of.update(id, new Office("WashingtonOffice", 100, "KisusyIEV"));
             //of.delete(id);
             //of.getAll();
             //of.quit();
             
             
             
-                      
-            //EmployeeDaoble em=df.getEmployeeDao();//Получение объекта для работы с персистентным состоянием Office
+            //Получение объекта для работы с персистентным состоянием Office          
+            EmployeeDaoble em=df.getEmployeeDao();
+            
+            //Установка роли пользователя (администратор, менеджер, рядовой сотрудник)
             //em.setRole(ADMIN_ROLE);
             //em.setRole(MANAGER_ROLE);
             //em.setRole(WORKER_ROLE);
             
+            //Методы работы с данными Employee
             //em.create(new Employee("MARK", 13, "Markus", "Developer", "12.12.2013", 332222d, null));
-            
             //em.read(id);
-            //em.getAll();
             //em.update(id, new Employee("Maks", 1111, "Maksim", "Manager", "11.11.2001", 5555d, null));
             //em.delete(id);
+            //em.getAll();
             //of.quit();
         
         }
         catch(Exception e){
-            
+            e.printStackTrace();
         }
         
     }

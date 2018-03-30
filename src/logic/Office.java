@@ -10,20 +10,23 @@ import java.util.Date;
 
 /**
  * 
- * @author Rostislav Stakhov <a1c32mr@mail.ru>
+ * @author Rostislav Stakhov <rst1991@ukr.net>
  */
+
+//Класс, представляющий объект типа Office - офис 
 public class Office {
 
-    private Long id;
-    private String obj_name;
-    private Integer emp_count;
-    private String location;
+    private Long id;//Номер объекта в БД
+    private String obj_name;//Название объекта в БД
+    private Integer emp_count;//Кол - во работников в одфисе
+    private String location;//Местонахождение офиса (город)
     
-    
+    //Консруктор без параметров
     public Office(){
         
     }
     
+    //Конструктор с параметрами
     public Office(String obj_name, int emp_count, String location){
         
         this.obj_name=obj_name;
@@ -32,6 +35,9 @@ public class Office {
         
     }
     
+    //Гетеры - сетеры для скрытых полей
+    
+    //Номер объекта в БД
     public Long getObjId(){
         return id;
     }
@@ -40,6 +46,7 @@ public class Office {
         this.id=id;
     }
     
+    //Имя объекта в БД
     public String getObjName(){
         return obj_name;
     }
@@ -48,6 +55,7 @@ public class Office {
         this.obj_name = obj_name;
     }
     
+    //Кол - во сотрудников в офисе
     public Integer getEmpCount(){
         return emp_count;
     }
@@ -56,6 +64,7 @@ public class Office {
         this.emp_count = emp_count;
     }
 
+    //Местонахождение офиса
     public String getLocation(){
         return location;
     }

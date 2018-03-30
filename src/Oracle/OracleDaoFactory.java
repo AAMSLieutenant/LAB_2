@@ -21,7 +21,7 @@ import java.util.Locale;
 
 /**
  * 
- * @author Rostislav Stakhov
+ * @author Rostislav Stakhov <rst1991@ukr.net>
  */
 public class OracleDaoFactory implements DaoFactoriable{
     
@@ -36,58 +36,32 @@ public class OracleDaoFactory implements DaoFactoriable{
         try 
         {
             System.out.println("-------- Oracle JDBC Connection Testing ------");
-            Class.forName(driver);//Регистрируем драйвер
+            Class.forName(driver);
         } 
         catch (ClassNotFoundException e) 
         {
-            System.out.println("Where is your Oracle JDBC Driver?");
+            System.out.println("JDBC Driver not found");
             e.printStackTrace();
         }
-        System.out.println("Oracle JDBC Driver Registered!");
-//        Connection connection;
-//        
-//        try {
-//
-//            connection = DriverManager.getConnection(
-//                    "jdbc:oracle:thin:@localhost:1521:xe", "manager", "manager");
-//
-//        } catch (SQLException e) {
-//
-//            System.out.println("Connection Failed! Check output console");
-//            e.printStackTrace();
-//            return;
-//
-//        }
-//
-//        if (connection != null) {
-//            System.out.println("You made it, take control your database now!");
-//        } else {
-//            System.out.println("Failed to make connection!");
-//        }
-    
+        System.out.println("Oracle JDBC Driver Registered");   
     }
     
-    
-
     @Override
     public Connection getConnection() throws SQLException 
     {
         return DriverManager.getConnection(url, user, password);
-        //return null;
     }
 
     @Override
     public EmployeeDaoble getEmployeeDao() throws Exception
     {
         return new EmployeeDao(DriverManager.getConnection(url, user, password)); 
-        //return null;
     }
 
     @Override
     public OfficeDaoble getOfficeDao() throws Exception
     {
         return new OfficeDao(DriverManager.getConnection(url, user, password));
-        
     }
 
 }
