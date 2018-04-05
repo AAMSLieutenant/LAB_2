@@ -42,7 +42,7 @@ public class OracleDB {
             //Получение объекта связи с БД
             OracleDaoFactory df=new OracleDaoFactory();
             //Получение объекта для работы с персистентным состоянием Office
-            OfficeDaoble of=df.getOfficeDao();
+            //OfficeDaoble of=df.getOfficeDao();
             
             //Установка роли пользователя (администратор, менеджер, рядовой сотрудник)
             //of.setRole(ADMIN_ROLE);
@@ -63,7 +63,7 @@ public class OracleDB {
             EmployeeDaoble em=df.getEmployeeDao();
             
             //Установка роли пользователя (администратор, менеджер, рядовой сотрудник)
-            //em.setRole(ADMIN_ROLE);
+            em.setRole(ADMIN_ROLE);
             //em.setRole(MANAGER_ROLE);
             //em.setRole(WORKER_ROLE);
             
@@ -72,7 +72,7 @@ public class OracleDB {
             //em.read(id);
             //em.update(id, new Employee("Maks", 1111, "Maksim", "Manager", "11.11.2001", 5555d, null));
             //em.delete(id);
-            //em.getAll();
+            em.getAll();
             //of.quit();
         
         }

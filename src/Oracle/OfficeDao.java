@@ -121,7 +121,7 @@ public class OfficeDao implements OfficeDaoble{
             
             if(rs.getInt("attr_id")==27) o.setLocation(rs.getString("text_info"));
             
-            //System.out.println("id:"+o.getObjId()+"\n"+"Шифр:"+o.getObjName()+"\n"+"Город:"+o.getLocation()+"\n"+"Сотрудники:"+o.getEmpCount());
+            System.out.println("id:"+o.getObjId()+"\n"+"Название:"+o.getObjName()+"\n"+"Город:"+o.getLocation()+"\n"+"Сотрудники:"+o.getEmpCount());
             
         }
         
@@ -284,6 +284,10 @@ public class OfficeDao implements OfficeDaoble{
             objects.add(read(arr.get(i)));
         }
 
+        for(int i=0;i<objects.size();i++){
+            
+        }
+        
         return objects;
     }
 

@@ -361,22 +361,22 @@ public class EmployeeDao implements EmployeeDaoble {
         List<Employee> objects=new ArrayList<>();
         List<Long> arr=new ArrayList<>();
         
-//        System.out.println("Employee getAll()");
-//        
-//        String statement="SELECT object_id FROM Objects where type_id=15";
-//
-//        PreparedStatement ps=connection.prepareStatement(statement);
-//        ResultSet rs=ps.executeQuery();
-//        while(rs.next()){
-//
-//            arr.add(rs.getLong("object_id"));   
-//        }
-//
-//
-//
-//        for(int i=0;i<arr.size();i++){
-//            objects.add(read(arr.get(i)));
-//        }
+        System.out.println("Employee getAll()");
+        
+        String statement="SELECT object_id FROM Objects where type_id=15";
+
+        PreparedStatement ps=connection.prepareStatement(statement);
+        ResultSet rs=ps.executeQuery();
+        while(rs.next()){
+
+            arr.add(rs.getLong("object_id"));   
+        }
+
+
+
+        for(int i=0;i<arr.size();i++){
+            objects.add(read(arr.get(i)));
+        }
 
         return objects;
         

@@ -4,14 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/Oracle/EmployeeDao.java</file>
-            <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/interfaces/EmployeeDaoble.java</file>
-            <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/Oracle/OracleDaoFactory.java</file>
-            <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/interfaces/OfficeDaoble.java</file>
             <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/logic/Employee.java</file>
             <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/Oracle/OfficeDao.java</file>
             <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/oracledb/OracleDB.java</file>
-            <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/interfaces/DaoFactoriable.java</file>
-            <file>file:/F:/Rostislav/GIT/LAB_2/OracleDB/src/logic/Office.java</file>
         </group>
     </open-files>
 </project-private>
